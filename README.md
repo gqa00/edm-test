@@ -1,2 +1,0 @@
-# edm-test
-github page
