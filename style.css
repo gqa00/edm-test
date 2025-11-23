@@ -1,0 +1,83 @@
+html, body {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-image: url('https://i.imgur.com/cBzCeyg.jpeg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    transition: background-image 0.35s ease-in-out, background-position 0.35s;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.contenido {
+    padding: 20px;
+    flex: 1;
+}
+
+h1 { text-align: center; color: white; margin: 0 0 16px 0; }
+h2 { text-align: center; color: black; margin: 0 0 16px 0; }
+
+#buscarArtista {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    margin: 15px 0 25px 0;
+    border: 1px solid #bbb;
+    border-radius: 6px;
+    box-sizing: border-box;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 220px));
+    gap: 20px;
+    justify-content: center;
+}
+
+.artist-card {
+    max-width: 220px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    cursor: pointer;
+    transition: transform 0.2s;
+    text-align: center;
+    width: 100%;
+    box-sizing: border-box;
+}
+.artist-card:hover { transform: scale(1.05); }
+.artist-card img { width: 100%; height: 160px; object-fit: cover; display:block; }
+.artist-name { padding: 15px; font-weight: bold; font-size: 18px; }
+
+#vistaEventos {
+    display: none;
+    margin-top: 30px;
+    padding: 20px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+table { width: 100%; margin-top: 10px; border-collapse: collapse; }
+th, td { padding: 10px; border-bottom: 1px solid #ddd; text-align: left; }
+th { background: #333; color: white; }
+
+.btn-volver {
+    display: inline-block;
+    margin-bottom: 15px;
+    padding: 10px 16px;
+    background: #444;
+    color: white;
+    border-radius: 6px;
+    cursor: pointer;
+    text-decoration: none;
+}
+.btn-volver:hover { background: #000; }
