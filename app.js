@@ -133,24 +133,5 @@ document.addEventListener('DOMContentLoaded', () => {
     document.addEventListener("contextmenu", function(e) {
         e.preventDefault();
     });
-    // --- FILTRO: NO INCLUIR EVENTOS PASADOS ---
-    const hoy = new Date();
-    hoy.setHours(0,0,0,0); // normalizar
-
-    const [dia, mes, ano] = row.Fecha.split("/"); // DD/MM/YYYY
-
-    const fechaEvento = new Date(
-        parseInt(ano),
-        parseInt(mes) - 1,
-        parseInt(dia)
-    );
-
-    fechaEvento.setHours(0,0,0,0);
-
-    // Si la fecha ya pasó -> no añadir
-    if (fechaEvento < hoy) {
-        return; 
-    }
-    // -------------------------------------------
 
 });
