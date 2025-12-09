@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     const body = document.body;
     const fondoOriginal = "url('https://i.imgur.com/cBzCeyg.jpeg')";
-
+    
     let eventos = [];
     let artistas = [];
 
@@ -13,11 +13,19 @@ document.addEventListener('DOMContentLoaded', () => {
             const datos = results.data;
 
             datos.forEach(row => {
+
+                // Crear lista de artistas con fallback de imagen
                 if (!artistas.some(a => a.nombre === row.Artista)) {
-                    artistas.push({ nombre: row.Artista, img: row.Img });
+                    artistas.push({
+                        nombre: row.Artista,
+                        img: row.Img && row.Img.trim() !== ""
+                             ? row.Img
+                             : "https://i.imgur.com/2yAfK7E.png"
+                    });
                 }
 
-                let eventoExistente = eventos.find(e => 
+                // Agrupar eventos
+                let eventoExistente = eventos.find(e =>
                     e.evento === row.Evento &&
                     e.ciudad === row.Ciudad &&
                     e.fecha === row.Fecha
@@ -42,15 +50,35 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    // Generar tarjetas de artistas
     function generarTarjetas() {
         const contenedor = document.getElementById("listaArtistas");
+        contenedor.innerHTML = "";
+
         artistas.forEach(artist => {
+
+            // Filtrar eventos del artista solo España
+            const eventosDelArtista = eventos
+                .filter(ev => ev.artistas.includes(artist.nombre))
+                .sort((a, b) => {
+                    if (a.fecha === "TBA") return 1;
+                    if (b.fecha === "TBA") return -1;
+                    const da = a.fecha.split('/').reverse().join('-');
+                    const db = b.fecha.split('/').reverse().join('-');
+                    return new Date(da) - new Date(db);
+                });
+
+
+            const proximoEvento = eventosDelArtista.length > 0 ? eventosDelArtista[0] : null;
+            const labelText = proximoEvento ? `Próximo evento: ${proximoEvento.fecha}` : "No hay eventos";
+
             const card = document.createElement("div");
             card.className = "artist-card";
-            card.setAttribute("data-nombre", artist.nombre.toLowerCase());
+            card.setAttribute("data-nombre", artist.nombre.toLowerCase().trim());
 
             card.innerHTML = `
                 <img src="${artist.img}" alt="${artist.nombre}">
+                <div class="artist-label">${labelText}</div>
                 <div class="artist-name">${artist.nombre}</div>
             `;
 
@@ -63,6 +91,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Barra de búsqueda
     const input = document.getElementById("buscarArtista");
     input.addEventListener("input", function () {
         const filtro = this.value.toLowerCase().trim();
@@ -97,6 +126,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    // Mostrar eventos del artista
     window.mostrarEventos = function(nombre) {
         document.getElementById("vistaArtistas").style.display = "none";
         document.getElementById("vistaEventos").style.display = "block";
@@ -123,6 +153,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
 
+    // Volver a artistas
     window.volverArtistas = function() {
         body.style.backgroundImage = fondoOriginal;
         document.getElementById("vistaEventos").style.display = "none";
@@ -133,5 +164,4 @@ document.addEventListener('DOMContentLoaded', () => {
     document.addEventListener("contextmenu", function(e) {
         e.preventDefault();
     });
-
 });

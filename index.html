@@ -3,23 +3,24 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Artistas & Eventos</title>
+<title>Artistas</title>
 
-<!-- CSS externo -->
 <link rel="stylesheet" href="style.css">
 
-<!-- PapaParse -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
 
 </head>
 <body>
 <div class="contenido">
+
+    <!-- VISTA ARTISTAS -->
     <div id="vistaArtistas">
         <h1>Artistas DJ</h1>
         <input type="text" id="buscarArtista" placeholder="Buscar artista o por ciudad...">
         <div class="grid" id="listaArtistas"></div>
     </div>
-    
+
+    <!-- VISTA EVENTOS -->
     <div id="vistaEventos">
         <a class="btn-volver" onclick="volverArtistas()">⬅ Volver a Artistas</a>
         <h2 id="tituloArtista"></h2>
@@ -31,10 +32,9 @@
             <tbody id="tablaEventos"></tbody>
         </table>
     </div>
+
 </div>
 
-<!-- Script externo -->
 <script src="app.js"></script>
-
 </body>
 </html>
