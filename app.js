@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     const body = document.body;
     const fondoOriginal = "url('https://i.imgur.com/cBzCeyg.jpeg')";
-    
+
     let eventos = [];
     let artistas = [];
 
@@ -13,13 +13,12 @@ document.addEventListener('DOMContentLoaded', () => {
             const datos = results.data;
 
             datos.forEach(row => {
-
                 // Crear lista de artistas con fallback de imagen
                 if (!artistas.some(a => a.nombre === row.Artista)) {
                     artistas.push({
                         nombre: row.Artista,
-                        img: row.Img && row.Img.trim() !== ""
-                             ? row.Img
+                        img: row.Img && row.Img.trim() !== "" 
+                             ? row.Img 
                              : "https://i.imgur.com/2yAfK7E.png"
                     });
                 }
@@ -54,12 +53,18 @@ document.addEventListener('DOMContentLoaded', () => {
     function generarTarjetas() {
         const contenedor = document.getElementById("listaArtistas");
         contenedor.innerHTML = "";
+        const hoy = new Date();
 
         artistas.forEach(artist => {
-
-            // Filtrar eventos del artista solo España
+            // Filtrar eventos futuros
             const eventosDelArtista = eventos
                 .filter(ev => ev.artistas.includes(artist.nombre))
+                .filter(ev => {
+                    if (ev.fecha === "TBA") return true;
+                    const partes = ev.fecha.split("/");
+                    const fechaEvento = new Date(partes[2], partes[1]-1, partes[0]);
+                    return fechaEvento >= hoy;
+                })
                 .sort((a, b) => {
                     if (a.fecha === "TBA") return 1;
                     if (b.fecha === "TBA") return -1;
@@ -68,9 +73,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     return new Date(da) - new Date(db);
                 });
 
-
             const proximoEvento = eventosDelArtista.length > 0 ? eventosDelArtista[0] : null;
-            const labelText = proximoEvento ? `Próximo evento: ${proximoEvento.fecha}` : "No hay eventos";
+            const labelText = proximoEvento ? `🇪🇸: ${proximoEvento.fecha}` : "No hay eventos";
 
             const card = document.createElement("div");
             card.className = "artist-card";
@@ -134,8 +138,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const cuerpo = document.getElementById("tablaEventos");
         cuerpo.innerHTML = "";
+        const hoy = new Date();
 
-        const filtrados = eventos.filter(ev => ev.artistas.includes(nombre));
+        const filtrados = eventos
+            .filter(ev => ev.artistas.includes(nombre))
+            .filter(ev => {
+                if (ev.fecha === "TBA") return true;
+                const partes = ev.fecha.split("/");
+                const fechaEvento = new Date(partes[2], partes[1]-1, partes[0]);
+                return fechaEvento >= hoy;
+            });
 
         if (filtrados.length === 0) {
             cuerpo.innerHTML = `<tr><td colspan="3">No hay eventos disponibles</td></tr>`;
