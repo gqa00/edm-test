@@ -74,7 +74,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
 
             const proximoEvento = eventosDelArtista.length > 0 ? eventosDelArtista[0] : null;
-            const labelText = proximoEvento ? `🇪🇸: ${proximoEvento.fecha}` : "No hay eventos";
+            const labelText = proximoEvento ? `Próximo evento: ${proximoEvento.fecha}` : "No hay eventos";
 
             const card = document.createElement("div");
             card.className = "artist-card";
@@ -177,3 +177,4 @@ document.addEventListener('DOMContentLoaded', () => {
         e.preventDefault();
     });
 });
+
